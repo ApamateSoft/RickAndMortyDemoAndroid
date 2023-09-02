@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "RickAndMortyAndroid"
 include(":app")
- 
+include(":domain")
