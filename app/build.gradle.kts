@@ -50,8 +50,12 @@ android {
 }
 
 dependencies {
+
+    //<editor-fold desc="MODULES">
     implementation(project(":domain"))
     implementation(project(":data"))
+    implementation(project(":useCase"))
+    //</editor-fold>
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")

@@ -17,3 +17,4 @@ rootProject.name = "RickAndMortyAndroid"
 include(":app")
 include(":domain")
 include(":data")
+include(":useCase")

@@ -10,7 +10,7 @@ class CharacterRepository(
     private val localSource: CharacterLocalSource
 ) {
 
-    suspend fun requestCharacters(page: Int): CharacterPage = remoteSource.requestCharacters(page)
+    suspend fun characterRequest(page: Int): CharacterPage = remoteSource.characterRequest(page)
 
     suspend fun saveCharacters(characters: List<Character>) = localSource.saveCharacters(characters)
 
