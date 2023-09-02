@@ -13,11 +13,13 @@ class CharacterRequestCase(
     private var characters: List<Character> = emptyList()
 
     fun isLastPage() = currentPage == pages
+
     suspend fun characterRequest(): List<Character> {
         currentPage = 1
         val characterPage = characterRepo.characterRequest(currentPage)
         pages = characterPage.pages
         characters = characterPage.characters
+        characterRepo.saveCharacters(characters)
         return characters
     }
 
