@@ -4,8 +4,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.apamatesoft.rickandmortyandroid.ui.screens.characterdetail.CharacterDetailsScreen
-import com.apamatesoft.rickandmortyandroid.ui.screens.home.HomeScreen
+import com.apamatesoft.rickandmortyandroid.ui.screen.characterdetail.CharacterDetailsScreen
+import com.apamatesoft.rickandmortyandroid.ui.screen.home.HomeScreen
 
 fun NavGraphBuilder.publicGraph(
     navController: NavHostController

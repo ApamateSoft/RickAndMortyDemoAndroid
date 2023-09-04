@@ -9,8 +9,27 @@ import junit.framework.TestCase.assertEquals
 import org.junit.Test
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
+import org.mockito.Mockito
+import org.mockito.kotlin.any
+import org.mockito.kotlin.doAnswer
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.stub
+import java.lang.Exception
 
 class CharacterRequestCaseTest {
+
+    companion object {
+        private val MOCK_RESPONSE = CharacterPage(
+            characters = (0..9).map {
+                Character(
+                    id = it+10,
+                    name = "Name",
+                    imageUrl = "https://picsum.photos/id/1/128"
+                )
+            },
+            pages = 3
+        )
+    }
 
     private lateinit var remoteSource: CharacterRemoteSource
     private lateinit var localSource: CharacterLocalSource
@@ -19,34 +38,46 @@ class CharacterRequestCaseTest {
 
     @Before
     fun setUp() {
-        remoteSource = CharacterRemoteSourceMockImp()
+        remoteSource = Mockito.mock(CharacterRemoteSource::class.java)
         localSource = CharacterLocalSourceMockImp()
         repo = CharacterRepository(remoteSource, localSource)
         useCase = CharacterRequestCase(repo)
     }
 
     @Test
-    fun `a list with 10 characters should be returned`() = runTest {
+    fun `characterRequest should return a list of character on success`() = runTest {
+        remoteSource.stub {
+            onBlocking { characterRequest(any()) }.doReturn(MOCK_RESPONSE)
+        }
         val characters = useCase.characterRequest()
-        assertEquals(10, characters.size)
+        assertEquals(MOCK_RESPONSE.characters.size, characters.size)
     }
 
     @Test
-    fun `after a character request should be cached`() = runTest {
+    fun `loadCharacter should return a list of characters in memory if the characterRequest method was successful`() = runTest {
+        remoteSource.stub {
+            onBlocking { characterRequest(any()) }.doReturn(MOCK_RESPONSE)
+        }
         useCase.characterRequest()
-        val cachedCharacters = localSource.loadCharacters()
-        assertEquals(10, cachedCharacters.size)
+        val cachedCharacters = useCase.loadCharacters()
+        assertEquals(MOCK_RESPONSE.characters.size, cachedCharacters.size)
     }
 
     @Test
-    fun `when loading more characters, a list must be returned with the current result together with all the previously consulted characters`() = runTest {
+    fun `loadMoreCharacters should add character to list on success`() = runTest {
+        remoteSource.stub {
+            onBlocking { characterRequest(any()) }.doReturn(MOCK_RESPONSE)
+        }
         useCase.characterRequest()
         val characters = useCase.loadMoreCharacters()
-        assertEquals(20, characters.size)
+        assertEquals(2*MOCK_RESPONSE.characters.size, characters.size)
     }
 
     @Test
-    fun `When reaching the last page, the isLastPage function should return true`() = runTest {
+    fun `isLastPage should return true when reaching the last page`() = runTest {
+        remoteSource.stub {
+            onBlocking { characterRequest(any()) }.doReturn(MOCK_RESPONSE)
+        }
         useCase.characterRequest()
         useCase.loadMoreCharacters()
         useCase.loadMoreCharacters()
@@ -54,31 +85,27 @@ class CharacterRequestCaseTest {
     }
 
     @Test
-    fun `If it is consulted beyond the last page, the list of characters should not grow`() = runTest {
+    fun `loadMoreCharacter should not keep adding characters to the list if it is executed more times than the number of pages`() = runTest {
+        remoteSource.stub {
+            onBlocking { characterRequest(any()) }.doReturn(MOCK_RESPONSE)
+        }
         useCase.characterRequest()
         useCase.loadMoreCharacters()
         useCase.loadMoreCharacters()
         val characters = useCase.loadMoreCharacters()
-        assertEquals(30, characters.size)
+        assertEquals(3*MOCK_RESPONSE.characters.size, characters.size)
     }
 
-}
-
-class CharacterRemoteSourceMockImp: CharacterRemoteSource {
-
-    override suspend fun characterRequest(page: Int): CharacterPage {
-        val characters = (0..9).map {
-            val id = it+((page-1)*10)
-            Character(
-                id = id,
-                name = "$id-Name",
-                imageUrl = "https://picsum.photos/id/$id/128"
-            )
+    @Test
+    fun `loadMoreCharacters should not increment the current page if an error occurs`() = runTest {
+        remoteSource.stub {
+            onBlocking { characterRequest(any()) }.doAnswer { throw Exception() }
         }
-        return CharacterPage(
-            characters = characters,
-            pages = 3
-        )
+        try {
+            useCase.loadMoreCharacters()
+        } catch (_: Exception) {
+        }
+        assertEquals(1, useCase.currentPage)
     }
 
 }

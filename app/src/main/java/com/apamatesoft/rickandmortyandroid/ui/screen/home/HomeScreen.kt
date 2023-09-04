@@ -1,4 +1,4 @@
-package com.apamatesoft.rickandmortyandroid.ui.screens.home
+package com.apamatesoft.rickandmortyandroid.ui.screen.home
 
 import androidx.compose.runtime.Composable
 
@@ -12,13 +12,16 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.apamatesoft.rickandmortyandroid.ui.theme.RickAndMortyAndroidTheme
 @Composable
 fun HomeScreen(
+    homeModel: HomeModel = hiltViewModel(),
     navController: NavController
 ) {
+
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally

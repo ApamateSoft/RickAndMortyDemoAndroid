@@ -8,7 +8,7 @@ class CharacterRequestCase(
     private val characterRepo: CharacterRepository
 ) {
 
-    private var currentPage: Int = 1
+    internal var currentPage: Int = 1
     private var pages by Delegates.notNull<Int>()
     private var characters: List<Character> = emptyList()
 
@@ -25,11 +25,13 @@ class CharacterRequestCase(
 
     suspend fun loadMoreCharacters(): List<Character> {
         if (isLastPage()) return characters
+        val characterPage = characterRepo.characterRequest(currentPage + 1)
         currentPage += 1
-        val characterPage = characterRepo.characterRequest(currentPage)
         pages = characterPage.pages
         characters += characterPage.characters
         return characters
     }
+
+    suspend fun loadCharacters(): List<Character> = characterRepo.loadCharacters()
 
 }

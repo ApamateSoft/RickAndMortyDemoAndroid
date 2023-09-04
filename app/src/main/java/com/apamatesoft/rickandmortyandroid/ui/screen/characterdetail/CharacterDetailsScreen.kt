@@ -1,4 +1,4 @@
-package com.apamatesoft.rickandmortyandroid.ui.screens.characterdetail
+package com.apamatesoft.rickandmortyandroid.ui.screen.characterdetail
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.material3.Surface
