@@ -5,12 +5,15 @@ import com.apamatesoft.repository.localSource.CharacterLocalSource
 import javax.inject.Inject
 
 class CharacterLocalSourceImp @Inject constructor(): CharacterLocalSource {
+
+    private var characters: List<Character> = emptyList()
+
     override suspend fun saveCharacters(characters: List<Character>) {
-        TODO("Not yet implemented")
+        this.characters = characters
     }
 
     override suspend fun loadCharacters(): List<Character> {
-        TODO("Not yet implemented")
+        return characters
     }
 
 }

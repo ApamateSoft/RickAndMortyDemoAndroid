@@ -54,7 +54,8 @@ class CharacterListTest {
                 characters = CHARACTERS,
                 onItemClick = { },
                 onAddToFavorite = { },
-                onRemoveFromFavorite = { }
+                onRemoveFromFavorite = { },
+                onLoadMore = { }
             )
         }
 
@@ -70,7 +71,8 @@ class CharacterListTest {
                 favoriteList = FAVORITES,
                 onItemClick = { },
                 onAddToFavorite = { },
-                onRemoveFromFavorite = { }
+                onRemoveFromFavorite = { },
+                onLoadMore = { }
             )
         }
 
@@ -91,7 +93,8 @@ class CharacterListTest {
                 favoriteList = FAVORITES,
                 onItemClick = { character = it },
                 onAddToFavorite = addToFavoriteHandle,
-                onRemoveFromFavorite = removeFromFavoriteHandle
+                onRemoveFromFavorite = removeFromFavoriteHandle,
+                onLoadMore = { }
             )
         }
 
@@ -116,7 +119,8 @@ class CharacterListTest {
                 favoriteList = FAVORITES,
                 onItemClick = onClickHandle,
                 onAddToFavorite = { character = it },
-                onRemoveFromFavorite = removeFromFavoriteHandle
+                onRemoveFromFavorite = removeFromFavoriteHandle,
+                onLoadMore = { }
             )
         }
 
@@ -142,7 +146,8 @@ class CharacterListTest {
                 favoriteList = FAVORITES,
                 onItemClick = onClickHandle,
                 onAddToFavorite = addToFavoriteHandle,
-                onRemoveFromFavorite = { character = it }
+                onRemoveFromFavorite = { character = it },
+                onLoadMore = { }
             )
         }
 

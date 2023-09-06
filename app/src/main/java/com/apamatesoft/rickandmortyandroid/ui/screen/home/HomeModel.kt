@@ -12,7 +12,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.lang.reflect.Modifier.PRIVATE
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,7 +22,8 @@ class HomeModel @Inject constructor(
     data class State(
         val loading: Boolean = false,
         val hasNetworkError: Boolean = false,
-        val characters: List<Character> = emptyList()
+        val characters: List<Character> = emptyList(),
+        val favorites: List<Int> = emptyList()
     )
 
     var state by mutableStateOf(State())
@@ -64,6 +64,7 @@ class HomeModel @Inject constructor(
 
     fun loadMoreCharacters() {
         if (state.loading) return
+        println(">>: HomeModel.loadMoreCharacters")
         state = state.copy(loading = true, hasNetworkError = false)
         viewModelScope.launch {
             state = try {
