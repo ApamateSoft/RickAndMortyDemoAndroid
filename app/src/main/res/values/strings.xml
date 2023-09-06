@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">RickAndMortyAndroid</string>
+    <string name="favorite_toggle_icon_description">favorite toggle</string>
 </resources>
