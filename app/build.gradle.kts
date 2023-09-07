@@ -72,6 +72,10 @@ dependencies {
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
     //</editor-fold>
 
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.google.code.gson:gson:2.10.1")
+
     implementation("io.coil-kt:coil-compose:2.0.0-rc01")
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
