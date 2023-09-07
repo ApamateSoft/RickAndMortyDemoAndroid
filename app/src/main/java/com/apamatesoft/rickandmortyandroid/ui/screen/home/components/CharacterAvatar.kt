@@ -9,13 +9,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.ContentScale.Companion.Fit
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.apamatesoft.rickandmortyandroid.R
+import com.apamatesoft.rickandmortyandroid.R.drawable.ic_img
+import com.apamatesoft.rickandmortyandroid.R.drawable.ic_img_not_found
 import com.apamatesoft.rickandmortyandroid.ui.theme.RickAndMortyAndroidTheme
 
 @Composable
@@ -30,9 +31,9 @@ fun CharacterAvatar(
             .clip(CircleShape)
             .size(size)
             .background(Color.Gray),
-        placeholder = painterResource(id = R.drawable.ic_img),
-        error = painterResource(id = R.drawable.ic_img_not_found),
-        contentScale = ContentScale.Fit
+        placeholder = painterResource(ic_img),
+        error = painterResource(ic_img_not_found),
+        contentScale = Fit
     )
 }
 

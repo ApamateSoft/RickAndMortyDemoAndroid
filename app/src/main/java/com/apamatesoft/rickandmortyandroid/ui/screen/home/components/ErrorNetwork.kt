@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -27,7 +28,7 @@ fun ErrorNetwork(
 ) {
 
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize().testTag("ErrorNetwork"),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
@@ -36,7 +37,9 @@ fun ErrorNetwork(
         Icon(
             painter = painterResource(ic_cloud_off),
             contentDescription = null,
-            modifier = Modifier.size(120.dp)
+            modifier = Modifier
+                .size(120.dp)
+                .testTag(ic_cloud_off.toString())
         )
 
         Spacer(modifier = Modifier.weight(0.5f))

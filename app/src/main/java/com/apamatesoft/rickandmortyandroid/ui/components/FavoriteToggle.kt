@@ -27,11 +27,12 @@ fun FavoriteToggle(
     val painterId = if (isFavorite) ic_favorite_fill else ic_favorite_border
 
     IconButton(
-        onClick = if (isFavorite) onRemoveFromFavorite else onAddToFavorite
+        onClick = if (isFavorite) onRemoveFromFavorite else onAddToFavorite,
+        modifier = Modifier.testTag("FavoriteToggle")
     ) {
         Icon(
             modifier = Modifier.testTag(painterId.toString()),
-            painter = painterResource(id = painterId),
+            painter = painterResource(painterId),
             contentDescription = stringResource(id = favorite_toggle_icon_description),
             tint = if (isFavorite) Red else Gray
         )

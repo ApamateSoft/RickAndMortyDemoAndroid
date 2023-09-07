@@ -26,10 +26,10 @@ import com.apamatesoft.rickandmortyandroid.ui.theme.RickAndMortyAndroidTheme
 
 @Composable
 fun CharacterListSkeleton(
-    size: Int = 5
+    size: Int = 6
 ) {
 
-    LazyColumn {
+    LazyColumn(Modifier.testTag("CharacterListSkeleton")) {
         items((0 until size).toList()) {
             Box(
                 modifier = Modifier

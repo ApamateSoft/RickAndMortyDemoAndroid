@@ -6,7 +6,10 @@ import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onAllNodesWithContentDescription
 import androidx.compose.ui.test.onAllNodesWithTag
+import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTouchInput
+import androidx.compose.ui.test.swipeUp
 import com.apamatesoft.domain.entity.Character
 import com.apamatesoft.rickandmortyandroid.R.string.favorite_toggle_icon_description
 import org.junit.Rule
@@ -17,6 +20,8 @@ import com.apamatesoft.rickandmortyandroid.R.drawable.ic_favorite_border
 import junit.framework.TestCase
 import org.junit.Before
 import org.mockito.MockitoAnnotations
+import org.mockito.kotlin.times
+import org.mockito.kotlin.verify
 import org.mockito.kotlin.verifyNoInteractions
 
 class CharacterListTest {
@@ -26,7 +31,7 @@ class CharacterListTest {
             Character(
                 id = it,
                 name = "$it - Name",
-                imageUrl = "https://picsum.photos/id/${it}/128"
+                imageUrl = "https://picsum.photos/id/${it}/20"
             )
         }
         val FAVORITES = listOf(0)
@@ -36,11 +41,13 @@ class CharacterListTest {
     val rule = createAndroidComposeRule<ComponentActivity>()
 
     @Mock
-    private lateinit var onClickHandle: (Character) -> Unit
+    private lateinit var clickHandle: (Character) -> Unit
     @Mock
     private lateinit var addToFavoriteHandle: (Character) -> Unit
     @Mock
     private lateinit var removeFromFavoriteHandle: (Character) -> Unit
+    @Mock
+    private lateinit var loadMoreHandle: () -> Unit
 
     @Before
     fun setUp() {
@@ -117,7 +124,7 @@ class CharacterListTest {
             CharacterList(
                 characters = CHARACTERS,
                 favoriteList = FAVORITES,
-                onItemClick = onClickHandle,
+                onItemClick = clickHandle,
                 onAddToFavorite = { character = it },
                 onRemoveFromFavorite = removeFromFavoriteHandle,
                 onLoadMore = { }
@@ -129,7 +136,7 @@ class CharacterListTest {
 
         TestCase.assertNotNull(character)
         TestCase.assertEquals(CHARACTERS[index].name, character?.name)
-        verifyNoInteractions(onClickHandle)
+        verifyNoInteractions(clickHandle)
         verifyNoInteractions(removeFromFavoriteHandle)
 
     }
@@ -144,7 +151,7 @@ class CharacterListTest {
             CharacterList(
                 characters = CHARACTERS,
                 favoriteList = FAVORITES,
-                onItemClick = onClickHandle,
+                onItemClick = clickHandle,
                 onAddToFavorite = addToFavoriteHandle,
                 onRemoveFromFavorite = { character = it },
                 onLoadMore = { }
@@ -156,8 +163,33 @@ class CharacterListTest {
 
         TestCase.assertNotNull(character)
         TestCase.assertEquals(CHARACTERS[index].name, character?.name)
-        verifyNoInteractions(onClickHandle)
+        verifyNoInteractions(clickHandle)
         verifyNoInteractions(addToFavoriteHandle)
+
+    }
+
+    @Test
+    fun onLoadMore_shouldBeCalledToSwipeUpGesture() {
+
+        rule.setContent {
+            CharacterList(
+                characters = CHARACTERS+ CHARACTERS,
+                favoriteList = FAVORITES,
+                onItemClick = clickHandle,
+                onAddToFavorite = addToFavoriteHandle,
+                onRemoveFromFavorite = removeFromFavoriteHandle,
+                onLoadMore = loadMoreHandle
+            )
+        }
+
+        rule.onRoot().performTouchInput {
+            swipeUp()
+            swipeUp()
+            swipeUp()
+            swipeUp()
+        }
+
+        verify(loadMoreHandle, times(2)).invoke()
 
     }
 

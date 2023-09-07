@@ -18,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.apamatesoft.domain.entity.Character
@@ -37,7 +38,8 @@ fun CharacterList(
     val listState = rememberLazyListState()
 
     LazyColumn(
-        state = listState
+        state = listState,
+        modifier = Modifier.testTag("CharacterList")
     ) {
         items(characters) {
             CharacterItem(
@@ -66,7 +68,7 @@ fun CharacterList(
     }
 
     listState.OnBottomReached {
-        onLoadMore.invoke()
+        onLoadMore()
     }
 
 }
@@ -83,7 +85,7 @@ private fun LazyListState.OnBottomReached(
         }
     }
 
-    LaunchedEffect(shouldLoadMore){
+    LaunchedEffect(shouldLoadMore) {
         snapshotFlow { shouldLoadMore.value }
             .collect {
                 if (it) loadMore()
@@ -103,7 +105,7 @@ private fun PreviewCharacterList() {
         Surface {
             CharacterList(
                 isLoading = true,
-                characters = (0..9).map {
+                characters = (0..29).map {
                     Character(
                         id = it,
                         name = "$it - Name",
