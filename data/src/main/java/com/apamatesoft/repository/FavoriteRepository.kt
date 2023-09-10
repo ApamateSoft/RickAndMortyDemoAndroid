@@ -6,7 +6,9 @@ class FavoriteRepository(
     private val localSource: FavoriteLocalSource
 ) {
 
-    suspend fun saveFavorites(favorites: List<Int>) = localSource.saveFavorites(favorites)
+    suspend fun addFavorite(favorite: Int) = localSource.addFavorite(favorite)
+
+    suspend fun removeFavorite(favorite: Int) = localSource.removeFavorite(favorite)
 
     suspend fun loadFavorites(): List<Int> = localSource.loadFavorites()
 
