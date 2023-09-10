@@ -64,7 +64,6 @@ class HomeModel @Inject constructor(
 
     fun loadMoreCharacters() {
         if (state.loading) return
-        println(">>: HomeModel.loadMoreCharacters")
         state = state.copy(loading = true, hasNetworkError = false)
         viewModelScope.launch {
             state = try {

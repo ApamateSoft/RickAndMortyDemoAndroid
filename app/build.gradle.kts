@@ -88,6 +88,7 @@ dependencies {
 
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.mockito:mockito-core:2.24.5")
+    testImplementation("com.squareup.okhttp3:mockwebserver:4.11.0")
 
     androidTestImplementation("org.mockito:mockito-android:2.24.5")
     androidTestImplementation("org.mockito.kotlin:mockito-kotlin:5.1.0")

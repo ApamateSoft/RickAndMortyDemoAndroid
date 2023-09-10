@@ -27,7 +27,6 @@ fun HomeScreen(
         onAddToFavorite = {  },
         onRemoveFromFavorite = {} ,
         onLoadMore = {
-            println(">>: HomeContent.onLoadMore")
             homeModel.loadMoreCharacters()
         },
         onRetry = { homeModel.characterRequest() }
