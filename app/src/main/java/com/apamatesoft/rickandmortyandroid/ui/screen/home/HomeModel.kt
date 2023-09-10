@@ -40,7 +40,9 @@ class HomeModel @Inject constructor(
         withContext(IO) {
             characterRequestCase.loadCharacters()
         }.also {
-            if (it.isNotEmpty()) state = state.copy(characters = it)
+            if (it.isNotEmpty()) {
+                state = state.copy(characters = it)
+            }
         }
     }
 

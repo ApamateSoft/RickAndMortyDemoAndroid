@@ -1,6 +1,5 @@
 package com.apamatesoft.rickandmortyandroid.infrastructure.repository.character
 
-import com.apamatesoft.domain.entity.Character
 import com.apamatesoft.domain.entity.CharacterPage
 import com.apamatesoft.repository.remoteSource.CharacterRemoteSource
 import com.apamatesoft.rickandmortyandroid.infrastructure.api.CharacterApi
@@ -12,10 +11,8 @@ class CharacterRemoteSourceImp @Inject constructor(
 ): CharacterRemoteSource {
 
     override suspend fun characterRequest(page: Int): CharacterPage {
-
         val dto = characterApi.characterRequest(page)
         return dto.toCharacterPage()
-
     }
 
 }

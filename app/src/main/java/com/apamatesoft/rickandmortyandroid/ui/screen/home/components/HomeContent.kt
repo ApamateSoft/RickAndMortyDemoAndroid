@@ -47,18 +47,16 @@ fun HomeContent(
 }
 
 @Preview(showBackground = true)
-@Preview(
-    showBackground = true,
-    uiMode = UI_MODE_NIGHT_YES
-)
+//@Preview(
+//    showBackground = true,
+//    uiMode = UI_MODE_NIGHT_YES
+//)
 @Composable
 private fun PreviewHomeContent() {
     RickAndMortyAndroidTheme {
         Surface {
             HomeContent(
                 state = HomeModel.State(
-                    hasNetworkError = true,
-                    loading = true,
                     characters = (0..19).map {
                         Character(
                             id = it,

@@ -72,6 +72,11 @@ dependencies {
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
     //</editor-fold>
 
+    //<editor-fold desc="ROOM">
+    implementation("androidx.room:room-ktx:2.5.1")
+    kapt("androidx.room:room-compiler:2.5.1")
+    //</editor-fold>
+
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.google.code.gson:gson:2.10.1")
