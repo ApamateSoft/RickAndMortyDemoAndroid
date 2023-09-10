@@ -7,7 +7,10 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.apamatesoft.domain.entity.Character
+import com.apamatesoft.usecase.AddFavoriteCase
 import com.apamatesoft.usecase.CharacterRequestCase
+import com.apamatesoft.usecase.GetAllFavoritesCase
+import com.apamatesoft.usecase.RemoveFavoriteCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
@@ -16,7 +19,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeModel @Inject constructor(
-    private val characterRequestCase: CharacterRequestCase
+    private val characterRequestCase: CharacterRequestCase,
+    private val addFavoriteCase: AddFavoriteCase,
+    private val removeFavoriteCase: RemoveFavoriteCase,
+    private val getAllFavoritesCase: GetAllFavoritesCase
 ): ViewModel() {
 
     data class State(
@@ -43,6 +49,15 @@ class HomeModel @Inject constructor(
             if (it.isNotEmpty()) {
                 state = state.copy(characters = it)
             }
+        }
+    }
+
+    @VisibleForTesting
+    internal fun loadFavoritesFromCache() = viewModelScope.launch {
+        withContext(IO) {
+            getAllFavoritesCase.invoke()
+        }.also {
+            state = state.copy(favorites = it)
         }
     }
 
@@ -80,6 +95,20 @@ class HomeModel @Inject constructor(
                 state.copy(loading = false, hasNetworkError = true)
             }
         }
+    }
+
+    fun addToFavorite(favorite: Int) = viewModelScope.launch {
+        withContext(IO) {
+            addFavoriteCase.invoke(favorite)
+        }
+        loadFavoritesFromCache()
+    }
+
+    fun removeFromFavorite(favorite: Int) = viewModelScope.launch {
+        withContext(IO) {
+            removeFavoriteCase.invoke(favorite)
+        }
+        loadFavoritesFromCache()
     }
 
 }

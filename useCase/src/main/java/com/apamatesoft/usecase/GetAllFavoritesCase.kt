@@ -2,7 +2,7 @@ package com.apamatesoft.usecase
 
 import com.apamatesoft.repository.FavoriteRepository
 
-class GetAllFavorites(
+class GetAllFavoritesCase(
     private val favoriteRepository: FavoriteRepository
 ) {
 
