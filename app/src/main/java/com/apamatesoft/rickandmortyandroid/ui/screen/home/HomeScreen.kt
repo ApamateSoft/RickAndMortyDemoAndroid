@@ -17,8 +17,6 @@ fun HomeScreen(
     navController: NavController
 ) {
 
-    println(">>: HomeScreen.favorites: ${homeModel.state.favorites}")
-
     LaunchedEffect(true) {
         homeModel.onCreate()
     }
@@ -26,17 +24,9 @@ fun HomeScreen(
     HomeContent(
         state = homeModel.state,
         onItemClick = { navController.navigate("CHARACTER_DETAILS") },
-        onAddToFavorite = {
-            homeModel.addToFavorite(it.id)
-            println(">>: HomeScreen.onAddToFavorite: ${ it.id }")
-        },
-        onRemoveFromFavorite = {
-            homeModel.removeFromFavorite(it.id)
-            println(">>: HomeScreen.onRemoveFromFavorite: ${ it.id }")
-        },
-        onLoadMore = {
-            homeModel.loadMoreCharacters()
-        },
+        onAddToFavorite = { homeModel.addToFavorite(it.id) },
+        onRemoveFromFavorite = { homeModel.removeFromFavorite(it.id) },
+        onLoadMore = { homeModel.loadMoreCharacters() },
         onRetry = { homeModel.characterRequest() }
     )
 

@@ -13,11 +13,9 @@ class FavoriteLocalSourceImp @Inject constructor(): FavoriteLocalSource {
 
     override suspend fun removeFavorite(favorite: Int) {
         favorites = favorites.filter { it != favorite }
-        println(">>: FavoriteLocalSourceImp.removeFavorite: { favorite: $favorite, favorites: $favorites }")
     }
 
     override suspend fun loadFavorites(): List<Int> {
-        println(">>: FavoriteLocalSourceImp.loadFavorites: $favorites")
         return favorites
     }
 
