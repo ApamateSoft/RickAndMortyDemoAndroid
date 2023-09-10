@@ -38,6 +38,7 @@ class HomeModel @Inject constructor(
 
     fun onCreate() {
         loadCharactersFromCache()
+        loadFavoritesFromCache()
         characterRequest()
     }
 

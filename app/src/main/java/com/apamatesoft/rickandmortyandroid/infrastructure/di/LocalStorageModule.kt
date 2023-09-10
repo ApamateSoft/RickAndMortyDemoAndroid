@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.apamatesoft.rickandmortyandroid.infrastructure.localStorage.AppDatabase
 import com.apamatesoft.rickandmortyandroid.infrastructure.localStorage.dao.CharacterDao
+import com.apamatesoft.rickandmortyandroid.infrastructure.localStorage.dao.FavoriteDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,5 +29,9 @@ object LocalStorageModule {
     @Singleton
     @Provides
     fun provideCharacterDao(db: AppDatabase): CharacterDao = db.getCharacterDao()
+
+    @Singleton
+    @Provides
+    fun provideFavoriteDao(db: AppDatabase): FavoriteDao = db.getFavoriteDao()
 
 }
