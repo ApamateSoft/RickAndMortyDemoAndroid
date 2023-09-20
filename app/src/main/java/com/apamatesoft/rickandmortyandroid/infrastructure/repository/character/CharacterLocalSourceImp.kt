@@ -3,7 +3,8 @@ package com.apamatesoft.rickandmortyandroid.infrastructure.repository.character
 import com.apamatesoft.domain.entity.Character
 import com.apamatesoft.repository.localSource.CharacterLocalSource
 import com.apamatesoft.rickandmortyandroid.infrastructure.localStorage.dao.CharacterDao
-import com.apamatesoft.rickandmortyandroid.infrastructure.localStorage.entity.CharacterEntity
+import com.apamatesoft.rickandmortyandroid.infrastructure.repository.mapper.toEntity
+import com.apamatesoft.rickandmortyandroid.infrastructure.repository.mapper.toModel
 import javax.inject.Inject
 
 class CharacterLocalSourceImp @Inject constructor(
@@ -12,26 +13,13 @@ class CharacterLocalSourceImp @Inject constructor(
 
     override suspend fun saveCharacters(characters: List<Character>) {
         characters.forEach {
-
-            val entity = CharacterEntity(
-                id = it.id,
-                name = it.name,
-                imageUrl = it.imageUrl
-            )
-
-            dao.insert(entity)
-
+            dao.insert(it.toModel())
         }
-
     }
 
     override suspend fun loadCharacters(): List<Character> {
         val entities = dao.getAll()
-        return entities.map { Character(
-            id = it.id,
-            name = it.name,
-            imageUrl = it.imageUrl
-        ) }
+        return entities.map { it.toEntity() }
     }
 
 }

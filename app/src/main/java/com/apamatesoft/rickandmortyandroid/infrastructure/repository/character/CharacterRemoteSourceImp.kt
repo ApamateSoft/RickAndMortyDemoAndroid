@@ -3,7 +3,7 @@ package com.apamatesoft.rickandmortyandroid.infrastructure.repository.character
 import com.apamatesoft.domain.entity.CharacterPage
 import com.apamatesoft.repository.remoteSource.CharacterRemoteSource
 import com.apamatesoft.rickandmortyandroid.infrastructure.api.CharacterApi
-import com.apamatesoft.rickandmortyandroid.infrastructure.api.mapper.toCharacterPage
+import com.apamatesoft.rickandmortyandroid.infrastructure.repository.mapper.toEntity
 import javax.inject.Inject
 
 class CharacterRemoteSourceImp @Inject constructor(
@@ -12,7 +12,7 @@ class CharacterRemoteSourceImp @Inject constructor(
 
     override suspend fun characterRequest(page: Int): CharacterPage {
         val dto = characterApi.characterRequest(page)
-        return dto.toCharacterPage()
+        return dto.toEntity()
     }
 
 }

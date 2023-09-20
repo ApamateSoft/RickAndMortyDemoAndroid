@@ -1,12 +1,12 @@
-package com.apamatesoft.rickandmortyandroid.infrastructure.localStorage.entity
+package com.apamatesoft.rickandmortyandroid.infrastructure.localStorage.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity("characters")
-data class CharacterEntity(
-    @PrimaryKey(autoGenerate = true) val id: Int,
+data class CharacterModel(
+    @PrimaryKey val id: Int,
     @ColumnInfo val name: String,
     @ColumnInfo val imageUrl: String
 )

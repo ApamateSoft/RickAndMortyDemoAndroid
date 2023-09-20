@@ -4,9 +4,14 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.apamatesoft.domain.entity.Character
 import com.apamatesoft.domain.entity.CharacterPage
 import com.apamatesoft.repository.CharacterRepository
+import com.apamatesoft.repository.FavoriteRepository
 import com.apamatesoft.repository.localSource.CharacterLocalSource
+import com.apamatesoft.repository.localSource.FavoriteLocalSource
 import com.apamatesoft.repository.remoteSource.CharacterRemoteSource
+import com.apamatesoft.usecase.AddFavoriteCase
 import com.apamatesoft.usecase.CharacterRequestCase
+import com.apamatesoft.usecase.GetAllFavoritesCase
+import com.apamatesoft.usecase.RemoveFavoriteCase
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
@@ -40,24 +45,43 @@ class HomeModelTest {
         private const val DELAY = 100L
     }
 
-    private lateinit var remoteSource: CharacterRemoteSource
-    private lateinit var localSource: CharacterLocalSource
-    private lateinit var repo: CharacterRepository
+    private lateinit var characterRemoteSource: CharacterRemoteSource
+    private lateinit var characterLocalSource: CharacterLocalSource
+    private lateinit var characterRepository: CharacterRepository
+
+    private lateinit var favoriteLocalSource: FavoriteLocalSource
+    private lateinit var favoriteRepository: FavoriteRepository
+
     private lateinit var useCase: CharacterRequestCase
+    private lateinit var addFavoritesCase: AddFavoriteCase
+    private lateinit var removeFavoriteCase: RemoveFavoriteCase
+    private lateinit var getAllFavoritesCase: GetAllFavoritesCase
     private lateinit var homeModel: HomeModel
 
     @Before
     fun setUp() {
-        remoteSource = Mockito.mock(CharacterRemoteSource::class.java)
-        localSource = CharacterLocalSourceMockImp()
-        repo = CharacterRepository(remoteSource, localSource)
-        useCase = CharacterRequestCase(repo)
-        homeModel = HomeModel(useCase)
+        characterRemoteSource = Mockito.mock(CharacterRemoteSource::class.java)
+        characterLocalSource = CharacterLocalSourceMockImp()
+        characterRepository = CharacterRepository(characterRemoteSource, characterLocalSource)
+
+        favoriteLocalSource = Mockito.mock(FavoriteLocalSource::class.java)
+        favoriteRepository = FavoriteRepository(favoriteLocalSource)
+        addFavoritesCase = AddFavoriteCase(favoriteRepository)
+        removeFavoriteCase = RemoveFavoriteCase(favoriteRepository)
+        getAllFavoritesCase = GetAllFavoritesCase(favoriteRepository)
+
+        useCase = CharacterRequestCase(characterRepository)
+        homeModel = HomeModel(
+            useCase,
+            addFavoritesCase,
+            removeFavoriteCase,
+            getAllFavoritesCase
+        )
     }
 
     @Test
     fun characterRequest_ShouldAddAListOfCharacterToTheStateOnSuccess() = runBlocking {
-        remoteSource.stub {
+        characterRemoteSource.stub {
             onBlocking { characterRequest(any()) }.doReturn(MOCK_RESPONSE)
         }
         homeModel.characterRequest()
@@ -71,12 +95,12 @@ class HomeModelTest {
         homeModel.state = homeModel.state.copy(loading = true)
         homeModel.characterRequest()
         delay(DELAY)
-        verifyNoMoreInteractions(remoteSource)
+        verifyNoMoreInteractions(characterRemoteSource)
     }
 
     @Test
     fun characterRequest_mustSetTheHasNetworkErrorStateToTrueOnError() = runBlocking {
-        remoteSource.stub {
+        characterRemoteSource.stub {
             onBlocking { characterRequest(any()) }.doAnswer { throw Exception() }
         }
         homeModel.characterRequest()
@@ -87,7 +111,7 @@ class HomeModelTest {
 
     @Test
     fun loadMoreCharacters_ShouldAddAListOfCharacterToTheStateOnSuccess() = runBlocking {
-        remoteSource.stub {
+        characterRemoteSource.stub {
             onBlocking { characterRequest(any()) }.doReturn(MOCK_RESPONSE)
         }
         homeModel.characterRequest()
@@ -103,12 +127,12 @@ class HomeModelTest {
         homeModel.state = homeModel.state.copy(loading = true)
         homeModel.loadMoreCharacters()
         delay(DELAY)
-        verifyNoMoreInteractions(remoteSource)
+        verifyNoMoreInteractions(characterRemoteSource)
     }
 
     @Test
     fun loadMoreCharacters_mustSetTheHasNetworkErrorStateToTrueOnError() = runBlocking {
-        remoteSource.stub {
+        characterRemoteSource.stub {
             onBlocking { characterRequest(any()) }.doAnswer { throw Exception() }
         }
         homeModel.loadMoreCharacters()
@@ -119,7 +143,7 @@ class HomeModelTest {
 
     @Test
     fun loadCharactersFromCache_shouldNotMutateTheListOfCharactersIfItExecutesMoreThanNumberOfPages() = runBlocking {
-        remoteSource.stub {
+        characterRemoteSource.stub {
             onBlocking { characterRequest(any()) }.doReturn(MOCK_RESPONSE)
         }
         homeModel.characterRequest()
@@ -136,7 +160,7 @@ class HomeModelTest {
 
     @Test
     fun loadCharactersFromCache_shouldSetTheCharacterListStateIfTheCharacterRequestMethodIsSuccessful() = runBlocking {
-        remoteSource.stub {
+        characterRemoteSource.stub {
             onBlocking { characterRequest(any()) }.doReturn(MOCK_RESPONSE)
         }
         homeModel.characterRequest()
