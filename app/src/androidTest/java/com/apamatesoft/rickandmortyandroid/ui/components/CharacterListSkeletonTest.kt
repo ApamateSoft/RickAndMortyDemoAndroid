@@ -1,4 +1,4 @@
-package com.apamatesoft.rickandmortyandroid.ui.screen.home.components
+package com.apamatesoft.rickandmortyandroid.ui.components
 
 import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.hasTestTag

@@ -7,6 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.apamatesoft.domain.entity.Character
+import com.apamatesoft.rickandmortyandroid.ui.components.CharacterList
+import com.apamatesoft.rickandmortyandroid.ui.components.CharacterListSkeleton
 import com.apamatesoft.rickandmortyandroid.ui.screen.home.HomeViewModel
 import com.apamatesoft.rickandmortyandroid.ui.theme.RickAndMortyAndroidTheme
 

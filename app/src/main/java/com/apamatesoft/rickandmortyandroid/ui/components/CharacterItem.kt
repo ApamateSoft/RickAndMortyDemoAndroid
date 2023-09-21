@@ -1,24 +1,20 @@
-package com.apamatesoft.rickandmortyandroid.ui.screen.home.components
+package com.apamatesoft.rickandmortyandroid.ui.components
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+//import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.apamatesoft.rickandmortyandroid.ui.theme.RickAndMortyAndroidTheme
 import com.apamatesoft.domain.entity.Character
-import com.apamatesoft.rickandmortyandroid.ui.components.FavoriteToggle
+import com.apamatesoft.rickandmortyandroid.ui.screen.home.components.CharacterAvatar
 
 @Composable
 fun CharacterItem(
@@ -29,6 +25,31 @@ fun CharacterItem(
     onRemoveFromFavorite: (Character) -> Unit
 ) {
 
+    ListItem(
+        modifier = Modifier
+            .clickable { onClick(character) }
+            .testTag("CharacterItem"),
+        leadingContent = {
+            CharacterAvatar(url = character.imageUrl)
+        },
+        headlineContent = {
+            Text(
+                text = character.name,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.fillMaxWidth()
+            )
+        },
+        trailingContent = {
+            FavoriteToggle(
+                isFavorite = isFavorite,
+                onAddToFavorite = { onAddToFavorite(character) },
+                onRemoveFromFavorite = { onRemoveFromFavorite(character) },
+            )
+        }
+    )
+
+    /*
     Box(
         modifier = Modifier
             .clickable { onClick(character) }
@@ -62,6 +83,7 @@ fun CharacterItem(
 
         }
     }
+     */
 
 }
 
@@ -77,7 +99,7 @@ private fun PreviewCharacterItem() {
             CharacterItem(
                 character = Character(
                     id = 0,
-                    name = "Lorem Ipsum",
+                    name = "Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum",
                     imageUrl = "https://picsum.photos/id/1/40"
                 ),
                 isFavorite = true,

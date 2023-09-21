@@ -1,4 +1,4 @@
-package com.apamatesoft.rickandmortyandroid.ui.screen.home.components
+package com.apamatesoft.rickandmortyandroid.ui.components
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.layout.Box
@@ -49,7 +49,6 @@ fun CharacterList(
                 onRemoveFromFavorite = onRemoveFromFavorite,
                 onAddToFavorite = onAddToFavorite
             )
-            Divider()
         }
 
         if (isLoading) {

@@ -1,4 +1,4 @@
-package com.apamatesoft.rickandmortyandroid.ui.screen.home.components
+package com.apamatesoft.rickandmortyandroid.ui.components
 
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.assertCountEquals
@@ -84,7 +84,8 @@ class CharacterListTest {
         }
 
         rule.onAllNodesWithTag(ic_favorite_fill.toString(), useUnmergedTree = true).assertCountEquals(1)
-        rule.onAllNodesWithTag(ic_favorite_border.toString(), useUnmergedTree = true).assertCountEquals(CHARACTERS.size-1)
+        rule.onAllNodesWithTag(ic_favorite_border.toString(), useUnmergedTree = true).assertCountEquals(
+            CHARACTERS.size-1)
 
     }
 
@@ -173,7 +174,7 @@ class CharacterListTest {
 
         rule.setContent {
             CharacterList(
-                characters = CHARACTERS+ CHARACTERS,
+                characters = CHARACTERS + CHARACTERS,
                 favoriteList = FAVORITES,
                 onItemClick = clickHandle,
                 onAddToFavorite = addToFavoriteHandle,
