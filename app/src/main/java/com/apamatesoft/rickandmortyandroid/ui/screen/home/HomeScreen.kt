@@ -13,21 +13,21 @@ import com.apamatesoft.rickandmortyandroid.ui.theme.RickAndMortyAndroidTheme
 
 @Composable
 fun HomeScreen(
-    homeModel: HomeModel = hiltViewModel(),
+    homeViewModel: HomeViewModel = hiltViewModel(),
     navController: NavController
 ) {
 
     LaunchedEffect(true) {
-        homeModel.onCreate()
+        homeViewModel.onCreate()
     }
 
     HomeContent(
-        state = homeModel.state,
+        state = homeViewModel.state,
         onItemClick = { navController.navigate("CHARACTER_DETAILS") },
-        onAddToFavorite = { homeModel.addToFavorite(it.id) },
-        onRemoveFromFavorite = { homeModel.removeFromFavorite(it.id) },
-        onLoadMore = { homeModel.loadMoreCharacters() },
-        onRetry = { homeModel.characterRequest() }
+        onAddToFavorite = { homeViewModel.addToFavorite(it.id) },
+        onRemoveFromFavorite = { homeViewModel.removeFromFavorite(it.id) },
+        onLoadMore = { homeViewModel.loadMoreCharacters() },
+        onRetry = { homeViewModel.characterRequest() }
     )
 
 }

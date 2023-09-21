@@ -122,4 +122,8 @@ class CharacterLocalSourceMockImp: CharacterLocalSource {
         return characters
     }
 
+    override suspend fun clear() {
+        characters = emptyList()
+    }
+
 }

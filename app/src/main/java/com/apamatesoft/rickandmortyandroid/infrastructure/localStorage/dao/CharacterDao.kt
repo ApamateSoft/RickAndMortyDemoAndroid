@@ -15,4 +15,7 @@ interface CharacterDao {
     @Query("SELECT * FROM characters")
     fun getAll(): List<CharacterModel>
 
+    @Query("DELETE FROM characters")
+    fun truncate()
+
 }

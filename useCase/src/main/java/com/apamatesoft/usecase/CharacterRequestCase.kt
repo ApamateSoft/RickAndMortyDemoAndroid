@@ -19,6 +19,7 @@ class CharacterRequestCase(
         val characterPage = characterRepo.characterRequest(currentPage)
         pages = characterPage.pages
         characters = characterPage.characters
+        characterRepo.clear()
         characterRepo.saveCharacters(characters)
         return characters
     }

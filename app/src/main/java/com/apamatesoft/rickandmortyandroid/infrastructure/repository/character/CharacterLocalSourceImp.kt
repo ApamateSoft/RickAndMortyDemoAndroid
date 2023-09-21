@@ -22,4 +22,8 @@ class CharacterLocalSourceImp @Inject constructor(
         return entities.map { it.toEntity() }
     }
 
+    override suspend fun clear() {
+        dao.truncate()
+    }
+
 }

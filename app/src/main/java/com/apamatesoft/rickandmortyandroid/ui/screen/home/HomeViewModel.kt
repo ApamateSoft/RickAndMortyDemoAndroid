@@ -18,7 +18,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeModel @Inject constructor(
+class HomeViewModel @Inject constructor(
     private val characterRequestCase: CharacterRequestCase,
     private val addFavoriteCase: AddFavoriteCase,
     private val removeFavoriteCase: RemoveFavoriteCase,

@@ -14,6 +14,8 @@ class CharacterRepository(
 
     suspend fun saveCharacters(characters: List<Character>) = localSource.saveCharacters(characters)
 
+    suspend fun clear() = localSource.clear()
+
     suspend fun loadCharacters(): List<Character> = localSource.loadCharacters()
 
 }

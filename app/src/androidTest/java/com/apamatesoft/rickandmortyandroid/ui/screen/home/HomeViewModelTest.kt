@@ -29,7 +29,7 @@ import org.mockito.kotlin.verifyNoMoreInteractions
 import java.lang.Exception
 
 @RunWith(AndroidJUnit4::class)
-class HomeModelTest {
+class HomeViewModelTest {
 
     companion object {
         private val MOCK_RESPONSE = CharacterPage(
@@ -56,7 +56,7 @@ class HomeModelTest {
     private lateinit var addFavoritesCase: AddFavoriteCase
     private lateinit var removeFavoriteCase: RemoveFavoriteCase
     private lateinit var getAllFavoritesCase: GetAllFavoritesCase
-    private lateinit var homeModel: HomeModel
+    private lateinit var homeViewModel: HomeViewModel
 
     @Before
     fun setUp() {
@@ -71,7 +71,7 @@ class HomeModelTest {
         getAllFavoritesCase = GetAllFavoritesCase(favoriteRepository)
 
         useCase = CharacterRequestCase(characterRepository)
-        homeModel = HomeModel(
+        homeViewModel = HomeViewModel(
             useCase,
             addFavoritesCase,
             removeFavoriteCase,
@@ -84,16 +84,16 @@ class HomeModelTest {
         characterRemoteSource.stub {
             onBlocking { characterRequest(any()) }.doReturn(MOCK_RESPONSE)
         }
-        homeModel.characterRequest()
+        homeViewModel.characterRequest()
         delay(DELAY)
-        assertEquals(MOCK_RESPONSE.characters.size, homeModel.state.characters.size)
-        assertFalse(homeModel.state.loading)
+        assertEquals(MOCK_RESPONSE.characters.size, homeViewModel.state.characters.size)
+        assertFalse(homeViewModel.state.loading)
     }
 
     @Test
     fun characterRequest_shouldNotBeExecutedIfTheLoadingStateIsTrue() = runBlocking {
-        homeModel.state = homeModel.state.copy(loading = true)
-        homeModel.characterRequest()
+        homeViewModel.state = homeViewModel.state.copy(loading = true)
+        homeViewModel.characterRequest()
         delay(DELAY)
         verifyNoMoreInteractions(characterRemoteSource)
     }
@@ -103,10 +103,10 @@ class HomeModelTest {
         characterRemoteSource.stub {
             onBlocking { characterRequest(any()) }.doAnswer { throw Exception() }
         }
-        homeModel.characterRequest()
+        homeViewModel.characterRequest()
         delay(DELAY)
-        assertTrue(homeModel.state.hasNetworkError)
-        assertFalse(homeModel.state.loading)
+        assertTrue(homeViewModel.state.hasNetworkError)
+        assertFalse(homeViewModel.state.loading)
     }
 
     @Test
@@ -114,18 +114,18 @@ class HomeModelTest {
         characterRemoteSource.stub {
             onBlocking { characterRequest(any()) }.doReturn(MOCK_RESPONSE)
         }
-        homeModel.characterRequest()
+        homeViewModel.characterRequest()
         delay(DELAY)
-        homeModel.loadMoreCharacters()
+        homeViewModel.loadMoreCharacters()
         delay(DELAY)
-        assertEquals(2*MOCK_RESPONSE.characters.size, homeModel.state.characters.size)
-        assertFalse(homeModel.state.loading)
+        assertEquals(2*MOCK_RESPONSE.characters.size, homeViewModel.state.characters.size)
+        assertFalse(homeViewModel.state.loading)
     }
 
     @Test
     fun loadMoreCharacters_shouldNotBeExecutedIfTheLoadingStateIsTrue() = runBlocking {
-        homeModel.state = homeModel.state.copy(loading = true)
-        homeModel.loadMoreCharacters()
+        homeViewModel.state = homeViewModel.state.copy(loading = true)
+        homeViewModel.loadMoreCharacters()
         delay(DELAY)
         verifyNoMoreInteractions(characterRemoteSource)
     }
@@ -135,10 +135,10 @@ class HomeModelTest {
         characterRemoteSource.stub {
             onBlocking { characterRequest(any()) }.doAnswer { throw Exception() }
         }
-        homeModel.loadMoreCharacters()
+        homeViewModel.loadMoreCharacters()
         delay(DELAY)
-        assertTrue(homeModel.state.hasNetworkError)
-        assertFalse(homeModel.state.loading)
+        assertTrue(homeViewModel.state.hasNetworkError)
+        assertFalse(homeViewModel.state.loading)
     }
 
     @Test
@@ -146,16 +146,16 @@ class HomeModelTest {
         characterRemoteSource.stub {
             onBlocking { characterRequest(any()) }.doReturn(MOCK_RESPONSE)
         }
-        homeModel.characterRequest()
+        homeViewModel.characterRequest()
         delay(DELAY)
-        homeModel.loadMoreCharacters()
+        homeViewModel.loadMoreCharacters()
         delay(DELAY)
-        homeModel.loadMoreCharacters()
+        homeViewModel.loadMoreCharacters()
         delay(DELAY)
-        homeModel.loadMoreCharacters()
+        homeViewModel.loadMoreCharacters()
         delay(DELAY)
-        assertEquals(3*MOCK_RESPONSE.characters.size, homeModel.state.characters.size)
-        assertFalse(homeModel.state.loading)
+        assertEquals(3*MOCK_RESPONSE.characters.size, homeViewModel.state.characters.size)
+        assertFalse(homeViewModel.state.loading)
     }
 
     @Test
@@ -163,13 +163,13 @@ class HomeModelTest {
         characterRemoteSource.stub {
             onBlocking { characterRequest(any()) }.doReturn(MOCK_RESPONSE)
         }
-        homeModel.characterRequest()
+        homeViewModel.characterRequest()
         delay(DELAY)
-        homeModel.state = homeModel.state.copy(characters = emptyList())
-        homeModel.loadCharactersFromCache()
+        homeViewModel.state = homeViewModel.state.copy(characters = emptyList())
+        homeViewModel.loadCharactersFromCache()
         delay(DELAY)
-        assertEquals(MOCK_RESPONSE.characters.size, homeModel.state.characters.size)
-        assertFalse(homeModel.state.loading)
+        assertEquals(MOCK_RESPONSE.characters.size, homeViewModel.state.characters.size)
+        assertFalse(homeViewModel.state.loading)
     }
 
 }
@@ -184,6 +184,10 @@ class CharacterLocalSourceMockImp: CharacterLocalSource {
 
     override suspend fun loadCharacters(): List<Character> {
         return characters
+    }
+
+    override suspend fun clear() {
+        characters = emptyList()
     }
 
 }

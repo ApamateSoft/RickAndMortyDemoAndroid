@@ -12,7 +12,7 @@ import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeUp
 import com.apamatesoft.domain.entity.Character
 import com.apamatesoft.rickandmortyandroid.R
-import com.apamatesoft.rickandmortyandroid.ui.screen.home.HomeModel
+import com.apamatesoft.rickandmortyandroid.ui.screen.home.HomeViewModel
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNotNull
 import org.junit.Before
@@ -62,7 +62,7 @@ class HomeContentKtTest {
 
         rule.setContent {
             HomeContent(
-                state = HomeModel.State(
+                state = HomeViewModel.State(
                     hasNetworkError = true,
                     characters = emptyList()
                 ),
@@ -86,7 +86,7 @@ class HomeContentKtTest {
 
         rule.setContent {
             HomeContent(
-                state = HomeModel.State(
+                state = HomeViewModel.State(
                     hasNetworkError = false,
                     characters = emptyList()
                 ),
@@ -110,7 +110,7 @@ class HomeContentKtTest {
 
         rule.setContent {
             HomeContent(
-                state = HomeModel.State(
+                state = HomeViewModel.State(
                     characters = CHARACTERS
                 ),
                 onItemClick = { },
@@ -133,7 +133,7 @@ class HomeContentKtTest {
 
         rule.setContent {
             HomeContent(
-                state = HomeModel.State(
+                state = HomeViewModel.State(
                     hasNetworkError = true,
                     characters = CHARACTERS
                 ),
@@ -157,7 +157,7 @@ class HomeContentKtTest {
 
         rule.setContent {
             HomeContent(
-                state = HomeModel.State(
+                state = HomeViewModel.State(
                     hasNetworkError = true
                 ),
                 onItemClick = itemClickHandle,
@@ -186,7 +186,7 @@ class HomeContentKtTest {
 
         rule.setContent {
             HomeContent(
-                state = HomeModel.State(
+                state = HomeViewModel.State(
                     characters = CHARACTERS
                 ),
                 onItemClick = { character = it },
@@ -216,7 +216,7 @@ class HomeContentKtTest {
 
         rule.setContent {
             HomeContent(
-                state = HomeModel.State(
+                state = HomeViewModel.State(
                     characters = CHARACTERS,
                     favorites = FAVORITES
                 ),
@@ -248,7 +248,7 @@ class HomeContentKtTest {
 
         rule.setContent {
             HomeContent(
-                state = HomeModel.State(
+                state = HomeViewModel.State(
                     characters = CHARACTERS,
                     favorites = FAVORITES
                 ),
@@ -277,7 +277,7 @@ class HomeContentKtTest {
 
         rule.setContent {
             HomeContent(
-                state = HomeModel.State(
+                state = HomeViewModel.State(
                     characters = CHARACTERS + CHARACTERS
                 ),
                 onItemClick = itemClickHandle,

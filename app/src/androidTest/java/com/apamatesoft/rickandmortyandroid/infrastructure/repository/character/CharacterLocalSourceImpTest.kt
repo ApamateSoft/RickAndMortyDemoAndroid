@@ -18,16 +18,16 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class CharacterLocalSourceImpTest {
 
-    private lateinit var characterDao: CharacterDao
+    private lateinit var dao: CharacterDao
     private lateinit var db: AppDatabase
-    private lateinit var characterLocalSource: CharacterLocalSource
+    private lateinit var localSource: CharacterLocalSource
 
     @Before
     fun setUp() {
         val context = ApplicationProvider.getApplicationContext<Context>()
         db = Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java).build()
-        characterDao = db.getCharacterDao()
-        characterLocalSource = CharacterLocalSourceImp(characterDao)
+        dao = db.getCharacterDao()
+        localSource = CharacterLocalSourceImp(dao)
     }
 
     @After
@@ -45,8 +45,8 @@ class CharacterLocalSourceImpTest {
                 imageUrl = "https://picsum.photos/id/${it}/40"
             )
         }
-        characterLocalSource.saveCharacters(characters)
-        val charactersLoaded = characterLocalSource.loadCharacters()
+        localSource.saveCharacters(characters)
+        val charactersLoaded = localSource.loadCharacters()
         assertEquals(characters.size, charactersLoaded.size)
     }
 
@@ -59,10 +59,25 @@ class CharacterLocalSourceImpTest {
                 imageUrl = "https://picsum.photos/id/0/40"
             )
         )
-        characterLocalSource.saveCharacters(characters)
-        characterLocalSource.saveCharacters(characters)
-        val charactersLoaded = characterLocalSource.loadCharacters()
+        localSource.saveCharacters(characters)
+        localSource.saveCharacters(characters)
+        val charactersLoaded = localSource.loadCharacters()
         assertEquals(1, charactersLoaded.size)
+    }
+
+    @Test
+    fun clearShouldEmptyCache() = runBlocking {
+        val characters = (1..20).map {
+            Character(
+                id = it,
+                name = "$it - Name",
+                imageUrl = "https://picsum.photos/id/${it}/40"
+            )
+        }
+        localSource.saveCharacters(characters)
+        localSource.clear()
+        val loaded = localSource.loadCharacters()
+        assertEquals(0, loaded.size)
     }
 
 }

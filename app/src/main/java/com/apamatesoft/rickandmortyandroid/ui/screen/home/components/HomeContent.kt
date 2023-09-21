@@ -1,6 +1,5 @@
 package com.apamatesoft.rickandmortyandroid.ui.screen.home.components
 
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Surface
@@ -8,12 +7,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.apamatesoft.domain.entity.Character
-import com.apamatesoft.rickandmortyandroid.ui.screen.home.HomeModel
+import com.apamatesoft.rickandmortyandroid.ui.screen.home.HomeViewModel
 import com.apamatesoft.rickandmortyandroid.ui.theme.RickAndMortyAndroidTheme
 
 @Composable
 fun HomeContent(
-    state: HomeModel.State,
+    state: HomeViewModel.State,
     onItemClick: (Character) -> Unit,
     onAddToFavorite: (Character) -> Unit,
     onRemoveFromFavorite: (Character) -> Unit,
@@ -56,7 +55,7 @@ private fun PreviewHomeContent() {
     RickAndMortyAndroidTheme {
         Surface {
             HomeContent(
-                state = HomeModel.State(
+                state = HomeViewModel.State(
                     characters = (0..19).map {
                         Character(
                             id = it,

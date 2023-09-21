@@ -7,4 +7,6 @@ interface CharacterLocalSource {
 
     suspend fun loadCharacters(): List<Character>
 
+    suspend fun clear()
+
 }
