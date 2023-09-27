@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.apamatesoft.rickandmortyandroid.ui.screen.characterdetail.CharacterDetailsScreen
+import com.apamatesoft.rickandmortyandroid.ui.screen.favorite.FavoriteScreen
 import com.apamatesoft.rickandmortyandroid.ui.screen.home.HomeScreen
 
 fun NavGraphBuilder.publicGraph(
@@ -21,6 +22,9 @@ fun NavGraphBuilder.publicGraph(
         }
         composable("CHARACTER_DETAILS") {
             CharacterDetailsScreen()
+        }
+        composable("FAVORITES") {
+            FavoriteScreen()
         }
     }
 }
