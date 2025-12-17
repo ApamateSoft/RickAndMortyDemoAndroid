@@ -1,0 +1,1 @@
+/Users/jealmesa/dev/android/RickAndMortyDemoAndroid/domain/build/classes/kotlin/main/com/apamatesoft/domain/entity/Character.class:/Users/jealmesa/dev/android/RickAndMortyDemoAndroid/domain/build/classes/kotlin/main/com/apamatesoft/domain/entity/CharacterPage.class
